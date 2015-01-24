@@ -1,8 +1,7 @@
 Disposable e-mail checker 
 =========================
 
-[![Build Status](https://travis-ci.org/dosten/php-boilerplate.svg?branch=master)](https://travis-ci.org/dosten/php-boilerplate)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/51705781-86a4-48db-9ccb-24e16ef4fd3c/mini.png)](https://insight.sensiolabs.com/projects/51705781-86a4-48db-9ccb-24e16ef4fd3c)
+[![Build Status](https://travis-ci.org/dosten/disposable-email-checker.svg?branch=master)](https://travis-ci.org/dosten/disposable-email-checker)
 
 Requirements
 ------------
