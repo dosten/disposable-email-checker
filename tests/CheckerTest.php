@@ -59,6 +59,13 @@ class CheckerTest extends \PHPUnit_Framework_TestCase
         $this->checker->check('invalid email');
     }
 
+    public function testAddProviderAndCheck()
+    {
+        Checker::$providers[] = 'my-disposable-provider.com';
+
+        $this->assertTrue($this->checker->check('johndoe@my-disposable-provider.com'));
+    }
+
     protected function tearDown()
     {
         $this->checker = null;
