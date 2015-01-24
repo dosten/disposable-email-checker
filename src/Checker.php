@@ -22,6 +22,8 @@ class Checker
 {
     /**
      * List of disposable emails providers.
+     *
+     * @see https://gist.github.com/4401361
      */
     static public $providers = array(
         '0-mail.com',
