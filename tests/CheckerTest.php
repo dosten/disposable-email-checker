@@ -3,48 +3,50 @@
 namespace DisposableEmailChecker\Tests;
 
 use DisposableEmailChecker\Checker;
+use DisposableEmailChecker\Provider\ChainProvider;
+use DisposableEmailChecker\Provider\InMemoryProvider;
 
 class CheckerTest extends \PHPUnit_Framework_TestCase
 {
-    private $checker;
-
-    protected function setUp()
+    /**
+     * @dataProvider validResults
+     */
+    public function testCheckWithDefaultProvider($email, $expected)
     {
-        $this->checker = new Checker();
+        $checker = new Checker();
+
+        $this->assertEquals($expected, $checker->check($email));
     }
 
     /**
      * @dataProvider validResults
      */
-    public function testCheck($email, $expected)
+    public function testCheckWithChainProvider($email, $expected)
     {
-        $this->assertEquals($expected, $this->checker->check($email));
+        $provider = new ChainProvider(array(
+            new InMemoryProvider()
+        ));
+
+        $checker = new Checker($provider);
+
+        $this->assertEquals($expected, $checker->check($email));
+    }
+
+    public function testCheckWithInMemoryProviderAndCustomDomain()
+    {
+        $provider = new InMemoryProvider();
+        $provider->addDomain('mycompany.com');
+
+        $checker = new Checker($provider);
+
+        $this->assertTrue($checker->check('johndoe@mycompany.com'));
     }
 
     public function validResults()
     {
         return array(
             array('johndoe@mailinator.com', true),
-            array('john+doe@gmail.com', false),
-            array('johndoe@courriel.fr.nf', true),
-            array('johndoe@yahoo.com', false),
-            array('johndoe@mycompany.com', false),
-        );
-    }
-
-    /**
-     * @dataProvider validStrictResults
-     */
-    public function testCheckStrict($email, $expected)
-    {
-        $this->assertEquals($expected, $this->checker->check($email, true));
-    }
-
-    public function validStrictResults()
-    {
-        return array(
-            array('johndoe@mailinator.com', true),
-            array('john+doe@gmail.com', true),
+            array('johndoe@gmail.com', false),
             array('johndoe@courriel.fr.nf', true),
             array('johndoe@yahoo.com', false),
             array('johndoe@mycompany.com', false),
@@ -56,18 +58,7 @@ class CheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckWithInvalidEmail()
     {
-        $this->checker->check('invalid email');
-    }
-
-    public function testAddProviderAndCheck()
-    {
-        Checker::$providers[] = 'my-disposable-provider.com';
-
-        $this->assertTrue($this->checker->check('johndoe@my-disposable-provider.com'));
-    }
-
-    protected function tearDown()
-    {
-        $this->checker = null;
+        $checker = new Checker();
+        $checker->check('invalid email');
     }
 }
