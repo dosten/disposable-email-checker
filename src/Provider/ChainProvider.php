@@ -13,7 +13,7 @@ namespace DisposableEmailChecker\Provider;
 
 class ChainProvider implements ProviderInterface
 {
-    protected $providers = array();
+    private $providers = array();
 
     public function __construct(array $providers = array())
     {
