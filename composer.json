@@ -24,8 +24,5 @@
         "psr-4": {
             "DisposableEmailChecker\\Tests\\": "tests/"
         }
-    },
-    "config": {
-        "bin-dir": "bin/"
     }
 }
