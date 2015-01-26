@@ -23,9 +23,8 @@ class CheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckWithChainProvider($email, $expected)
     {
-        $provider = new ChainProvider(array(
-            new InMemoryProvider()
-        ));
+        $provider = new ChainProvider();
+        $provider->addProvider(new InMemoryProvider());
 
         $checker = new Checker($provider);
 
