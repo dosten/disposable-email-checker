@@ -26,7 +26,9 @@ class Checker
 
     public function check($email)
     {
+        // Sanitize the email to prevent false negative.
         $email = strtolower($email);
+        $email = trim($email);
 
         if (!preg_match('/.+\@.+\..+/', $email)) {
             throw new InvalidEmailException('The provided value is not a valid email address.');
